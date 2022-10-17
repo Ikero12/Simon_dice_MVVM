@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Simon_dice_Iker</string>
+    <string name="btn_azul">Button</string>
+    <string name="btn_rojo">Button</string>
+    <string name="btn_verde">Button</string>
+    <string name="btn_amarillo">Button</string>
+    <string name="score">Score:</string>
+    <string name="iniciar">Iniciar</string>
+    <string name="nombreJugador"></string>
+</resources>
