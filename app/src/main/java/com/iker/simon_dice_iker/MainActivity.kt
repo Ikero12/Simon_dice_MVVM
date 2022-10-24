@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private var numbersArray= IntArray(1000)
     private var contador=0
     private var puntuacion=0
+    private var booleanBotones: Boolean = true
     var numerointroducido:Int = 0
 
     lateinit var btnRojo:Button
@@ -70,8 +71,8 @@ class MainActivity : AppCompatActivity() {
     Método que saca la secuencia de colores y que además hace que se iluminen
      */
     private fun colorRandom(){
-
-        activarBotones(false)
+        booleanBotones=false
+        activarBotones(booleanBotones)
 
         for(i in 0..ronda){
             val randomValues = Random().nextInt(4) +1
@@ -111,7 +112,8 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 }
-                activarBotones(true)
+                booleanBotones=true
+                activarBotones(booleanBotones)
             }
 
         jobColores
@@ -122,24 +124,38 @@ class MainActivity : AppCompatActivity() {
 
     private fun enterNumbers(numbersArray: IntArray){
         btnRojo.setOnClickListener(){
-            Log.d("botónpresionado:","1")
-            numerointroducido=1
-            comprobante()
+
+            if(booleanBotones){
+                Log.d("botónpresionado:","1")
+                numerointroducido=1
+                comprobante()
+            }
         }
         btnAzul.setOnClickListener(){
-            Log.d("botónpresionado:","2")
-            numerointroducido=2
-            comprobante()
+
+            if(booleanBotones){
+                Log.d("botónpresionado:","2")
+                numerointroducido=2
+                comprobante()
+            }
+
         }
         btnVerde.setOnClickListener(){
-            Log.d("botónpresionado:","3")
-            numerointroducido=3
-            comprobante()
+
+            if(booleanBotones){
+                Log.d("botónpresionado:","3")
+                numerointroducido=3
+                comprobante()
+            }
+
         }
         btnAmarillo.setOnClickListener(){
-            Log.d("botónpresionado:","4")
-            numerointroducido=4
-            comprobante()
+
+            if(booleanBotones){
+                Log.d("botónpresionado:","4")
+                numerointroducido=4
+                comprobante()
+            }
         }
     }
 
@@ -179,6 +195,7 @@ class MainActivity : AppCompatActivity() {
         btnAzul.isClickable == boolean
         btnVerde.isClickable == boolean
         btnAmarillo.isClickable == boolean
+
     }
 
 
