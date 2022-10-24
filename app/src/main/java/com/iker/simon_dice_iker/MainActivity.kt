@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.*
 import java.util.*
 import kotlin.jvm.functions.FunctionN
 
@@ -32,8 +33,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var score:TextView
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -52,11 +51,14 @@ class MainActivity : AppCompatActivity() {
         })
 
     }
+
     private fun inicio(){
         colorRandom()
-
     }
 
+    /*
+    Método que resetea el juego y el score.
+     */
     private fun reset(){
         for(i in 0..(ronda-1)){
             numbersArray[i]=0
@@ -64,30 +66,59 @@ class MainActivity : AppCompatActivity() {
         score.text = "Score: "
     }
 
+    /*
+    Método que saca la secuencia de colores y que además hace que se iluminen
+     */
     private fun colorRandom(){
+
+        activarBotones(false)
 
         for(i in 0..ronda){
             val randomValues = Random().nextInt(4) +1
             numbersArray.set((ronda-1),randomValues)
         }
-
         enterNumbers(numbersArray)
-        Log.d("array:", Arrays.toString(numbersArray))
+        Log.d("array:", Arrays.toString(numbersArray)) //Para comprobar la secuencia de colores de la máquina mediante la consola
 
+            val jobColores = GlobalScope.launch(Dispatchers.Main) {
 
-
-        for (i in 0..numbersArray.size){
-            when (numbersArray[i]){
-                1-> {
-                    btnRojo.setBackgroundColor(R.color.red2)
+                for (i in 0..ronda){
+                    when (numbersArray[i]){
+                        1-> {
+                            btnRojo.setBackgroundColor(resources.getColor(R.color.red2))
+                            delay(750)
+                            btnRojo.setBackgroundColor(resources.getColor(R.color.red))
+                            delay(100)
+                        }
+                        2->{
+                            btnAzul.setBackgroundColor(resources.getColor(R.color.blue2))
+                            delay(750)
+                            btnAzul.setBackgroundColor(resources.getColor(R.color.blue))
+                            delay(100)
+                        }
+                        3->{
+                            btnVerde.setBackgroundColor(resources.getColor(R.color.green2))
+                            delay(750)
+                            btnVerde.setBackgroundColor(resources.getColor(R.color.green))
+                            delay(100)
+                        }
+                        4->{
+                            btnAmarillo.setBackgroundColor(resources.getColor(R.color.yellow2))
+                            delay(750)
+                            btnAmarillo.setBackgroundColor(resources.getColor(R.color.yellow))
+                            delay(100)
+                        }
+                    }
 
                 }
+                activarBotones(true)
             }
 
-        }
-
+        jobColores
 
     }
+
+
 
     private fun enterNumbers(numbersArray: IntArray){
         btnRojo.setOnClickListener(){
@@ -112,6 +143,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /*
+    Método que comprueba que la secuencia introducida por el usuario es la correcta.
+    En caso de que la secuencia sea la correcta le da una nueva manteniendo la antigua y en caso de que no
+    le salta un mensaje de que ha perdido con su puntuación.
+     */
     private fun comprobante(){
         if(numerointroducido == numbersArray[contador] && contador != ronda){
             contador+=1
@@ -130,6 +166,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Has hecho " + puntuacion + " puntos!",Toast.LENGTH_LONG).show()
             reset()
             btnIniciar.setVisibility(View.VISIBLE)
+            puntuacion=0
             ronda=1
             contador=0
         }
@@ -137,6 +174,12 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    fun activarBotones(boolean: Boolean){
+        btnRojo.isClickable == boolean
+        btnAzul.isClickable == boolean
+        btnVerde.isClickable == boolean
+        btnAmarillo.isClickable == boolean
+    }
 
 
 
