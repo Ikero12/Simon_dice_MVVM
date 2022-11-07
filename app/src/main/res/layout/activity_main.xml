@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        tools:ignore="DuplicateSpeakableTextCheck" />
+        tools:ignore="DuplicateSpeakableTextCheck,SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/btn_azul"
@@ -31,7 +31,8 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_amarillo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/btn_verde"
@@ -46,7 +47,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_amarillo"
         app:layout_constraintHorizontal_bias="0.134"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/btn_amarillo"
@@ -57,7 +59,8 @@
         android:backgroundTint="@color/yellow"
         android:text="@string/btn_amarillo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/btn_Inicio"
@@ -80,8 +83,22 @@
         android:text="@string/score"
         android:textSize="24sp"
         android:textFontWeight="1000"
-        android:textColor="@color/purple_200"
+        android:textColor="@color/purple_700"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/record"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="244dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/record"
+        android:textColor="@color/purple_700"
+        android:textFontWeight="1000"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TextContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
