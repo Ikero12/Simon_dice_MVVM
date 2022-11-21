@@ -8,9 +8,11 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
 import java.util.*
+import androidx.lifecycle.Observer
 
 
 
@@ -30,11 +32,15 @@ class MainActivity : AppCompatActivity() {
     lateinit var btnIniciar:Button
     lateinit var score:TextView
     lateinit var record:TextView
+    lateinit var rondaview:TextView
     var puntuacion2: Int=0
+    val mimodelo by viewModels<MyViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
         btnIniciar= findViewById(R.id.btn_Inicio)
         btnRojo=findViewById(R.id.btn_rojo)
         btnAzul=findViewById(R.id.btn_azul)
@@ -48,6 +54,13 @@ class MainActivity : AppCompatActivity() {
                 inicio()
                 btnIniciar.setVisibility(View.GONE)
                 Log.d("Lehasdadoclick","adsf")
+            }
+        })
+
+        mimodelo.livedata_ronda.observe(this, Observer {
+            fun(nuevaRonda: Int){
+                rondaview = findViewById(R.id.ronda)
+                rondaview.text = "Ronda: " + nuevaRonda
             }
         })
 
@@ -175,6 +188,7 @@ class MainActivity : AppCompatActivity() {
             }
         }else if(contador == ronda || numerointroducido == numbersArray[contador]){
             ronda+=1
+            mimodelo.sumarRonda()
             puntuacion+=10
             score.text = "Score: " + puntuacion
             contador=0
@@ -186,10 +200,13 @@ class MainActivity : AppCompatActivity() {
             loadRecord()
             btnIniciar.setVisibility(View.VISIBLE)
             puntuacion=0
-            ronda=1
+            ronda=0
             contador=0
+            rondaview.text="Ronda: "
         }
     }
+
+
 
     fun activarBotones(boolean: Boolean){
         btnRojo.isClickable == boolean

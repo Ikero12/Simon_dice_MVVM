@@ -8,4 +8,5 @@
     <string name="iniciar">Iniciar</string>
     <string name="nombreJugador"></string>
     <string name="record">Record:</string>
+    <string name="ronda">Ronda:</string>
 </resources>
