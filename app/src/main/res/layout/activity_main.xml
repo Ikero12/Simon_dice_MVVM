@@ -81,9 +81,9 @@
         android:layout_marginStart="14dp"
         android:layout_marginTop="17dp"
         android:text="@string/score"
-        android:textSize="24sp"
-        android:textFontWeight="1000"
         android:textColor="@color/purple_700"
+        android:textFontWeight="1000"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -105,12 +105,15 @@
         android:id="@+id/ronda"
         android:layout_width="90dp"
         android:layout_height="44dp"
+        android:layout_marginTop="2dp"
         android:text="Ronda:"
         android:textColor="@color/purple_700"
         android:textFontWeight="1000"
         android:textSize="20sp"
-        tools:layout_editor_absoluteX="14dp"
-        tools:layout_editor_absoluteY="69dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.043"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/score"></TextView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

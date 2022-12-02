@@ -6,18 +6,22 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
 import java.util.*
 import androidx.lifecycle.Observer
-
+import androidx.room.Room
+import com.iker.simon_dice_iker.DB.DAORecord
+import com.iker.simon_dice_iker.DB.SmDB
 
 
 class MainActivity : AppCompatActivity() {
-
+    //regionvariables
     private var ronda = 1
     private var numbersArray= IntArray(1000)
     private var contador=0
@@ -33,14 +37,17 @@ class MainActivity : AppCompatActivity() {
     lateinit var score:TextView
     lateinit var record:TextView
     lateinit var rondaview:TextView
+    lateinit var daoRecord: DAORecord
+
     var puntuacion2: Int=0
     val mimodelo by viewModels<MyViewModel>()
+
+    //endregion
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
         btnIniciar= findViewById(R.id.btn_Inicio)
         btnRojo=findViewById(R.id.btn_rojo)
         btnAzul=findViewById(R.id.btn_azul)
@@ -48,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         btnAmarillo=findViewById(R.id.btn_amarillo)
         score = findViewById(R.id.score)
         record = findViewById(R.id.record)
+        rondaview = findViewById(R.id.ronda)
         loadRecord()
         btnIniciar.setOnClickListener(object : View.OnClickListener{
             override fun onClick(p0: View?) {
@@ -56,6 +64,8 @@ class MainActivity : AppCompatActivity() {
                 Log.d("Lehasdadoclick","adsf")
             }
         })
+
+        daoRecord = SmDB.getDatabase(this).DAORecord()
 
         mimodelo.livedata_ronda.observe(this, Observer {
             fun(nuevaRonda: Int){
@@ -189,6 +199,7 @@ class MainActivity : AppCompatActivity() {
         }else if(contador == ronda || numerointroducido == numbersArray[contador]){
             ronda+=1
             mimodelo.sumarRonda()
+            rondaview.text="Ronda: " + ronda
             puntuacion+=10
             score.text = "Score: " + puntuacion
             contador=0
@@ -200,7 +211,7 @@ class MainActivity : AppCompatActivity() {
             loadRecord()
             btnIniciar.setVisibility(View.VISIBLE)
             puntuacion=0
-            ronda=0
+            ronda=1
             contador=0
             rondaview.text="Ronda: "
         }
@@ -216,8 +227,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
- private fun saveRecord(){
-
+    private fun saveRecord(){
      if(puntuacion>puntuacion2){
          puntuacion2 = puntuacion
          val sharedPreferences = getSharedPreferences("record", Context.MODE_PRIVATE)
@@ -228,13 +238,21 @@ class MainActivity : AppCompatActivity() {
      }
      Toast.makeText(this,"Se ha establecido un nuevo record!",Toast.LENGTH_LONG)
  }
-
     private fun loadRecord(){
         val sharedPreferences = getSharedPreferences("record", Context.MODE_PRIVATE)
         val savedRecord = sharedPreferences.getInt("INT_KEY",0)
         record.text = "Record: " + savedRecord
     }
 
-
+    private fun askUser(){
+        val builder = AlertDialog.Builder(this)
+        val inflater = layoutInflater
+        builder.setTitle("User Record")
+        val dialogLayout = inflater.inflate(R.layout.alert_dialog_with_edittext, null)
+        val editText  = dialogLayout.findViewById<EditText>(R.id.editText)
+        builder.setView(dialogLayout)
+        builder.setPositiveButton("OK"){ dialogInterface, i -> Toast.makeText(applicationContext, "El usuario es: " + editText.text.toString(), Toast.LENGTH_SHORT).show() }
+        builder.show()
+    }
 
 }
